@@ -10,3 +10,5 @@ import Foundation
 
 print("Hello, World!")
 
+let a = 1990
+print (a)
