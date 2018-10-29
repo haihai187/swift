@@ -207,14 +207,14 @@ class Employee_1
     var name: String = "Tony"
     var job: String?
     var salary: Double = 0
-    var dept: Department_1? //= Department_1()
+    var dept: Department_1? = Department_1()
     //var dept: Department_1 = Department_1()
 }
 class Department_1
 {
     var no: Int = 10
     var name: String = "SAlES"
-    var comp: Company_1? //= Company_1()
+    var comp: Company_1? = Company_1()
    // var comp: Company_1 = Company_1()
 }
 class Company_1
@@ -226,4 +226,15 @@ let emp_1 = Employee_1()
 print(emp_1.dept!.comp!.name) //显示拆包
 print(emp_1.dept?.comp?.name) //可选链
 prints_(str:str_)
+
+func divide(n1: Int ,n2: Int ) ->Double?
+{
+    if n2 == 0
+    {
+        return nil
+    }
+    return Double(n1)/Double(n2)
+}
+
+let result1: Double? = divide(n1:100,n2:200)
 
