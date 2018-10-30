@@ -11,7 +11,7 @@ import Foundation
 //test class/struct
 
 let str_ = "-------------------------------------"
-func prints_(str: String)
+func prints_( str: String)
 {
     print(str)
 }
@@ -237,4 +237,95 @@ func divide(n1: Int ,n2: Int ) ->Double?
 }
 
 let result1: Double? = divide(n1:100,n2:200)
+
+//func
+func recatangleArea_(_ width: Double, H height: Double) -> Double{
+    let area = width * height
+    return area
+}
+print("W X H 的长方形面积：\(recatangleArea_(320,H:480))")
+prints_(str:str_)
+//引用（&，inout）
+func increment(value: inout Double, amount: Double = 1.0)
+{
+    value += amount
+}
+var value: Double = 10.0
+increment(value: &value)
+print(value)
+
+increment(value: &value,amount:100.0)
+print(value)
+prints_(str:str_)
+//函数类型作为另一个函数的返回类型使用
+//定义计算长方形面积的函数
+func recatangleArea(width: Double,height: Double) ->Double{
+    let area = width * height
+    return area
+}
+//定义计算三角形面积的函数
+func triangleArea(bottom: Double,height: Double) ->Double{
+    let area = 0.5 * bottom * height
+    return area
+}
+
+func getArea(type: String) ->(Double,Double) ->Double{            //返回值类型是(Double,Double)->Double
+    var returnFunction: (Double,Double) ->Double       //声明returnFunction类型是(Double,Double)->Double函数类型
+    switch(type)
+    {
+        case "rect":
+        returnFunction = recatangleArea            //将recatangleArea函数名赋值给变量
+        case "tria":
+        returnFunction = triangleArea
+        default:
+        returnFunction = recatangleArea
+    }
+    return returnFunction
+}
+
+var area: (Double,Double)->Double = getArea(type:"tria")
+print("底10，高15，三角形面积：\(area(10,15) )")
+
+area = getArea(type:"rect")
+print("长28，高30，长方形面积：\(area(28,30))")
+
+//把函数类型作为另一个函数的参数类型使用
+func getAreaByFunc(funcName: (Double,Double) -> Double,a: Double,b: Double) -> Double{
+    let area = funcName(a,b)
+    return area
+}
+var result : Double = getAreaByFunc(funcName:triangleArea,a:10,b:15)
+print("底10，高15，三角形面积：\(result)")
+prints_(str:str_)
+//嵌套函数
+func calculate(opr: String) -> (Int,Int) ->Int   //返回值为函数类型
+{
+    func add(a: Int ,b: Int ) -> Int
+    {
+        return a + b
+    }
+    
+    func sub(a: Int ,b: Int ) -> Int
+    {
+        return a - b
+    }
+    var result: (Int,Int) -> Int     //定义一个函数类型的变量result
+    switch (opr)
+    {
+    case "+":
+        result = add    //将add函数名赋值给函数类型的变量result
+    case "-":
+        result = sub
+    default:
+        result = add
+        
+    }
+    return result    //返回函数类型
+}
+
+let f1: (Int ,Int ) -> Int = calculate(opr:"+")  //定义一个函数类型常量f1，并调用calculate函数进行赋值
+print("10 + 5 = \(f1(10,5))")
+let f2: (Int ,Int ) -> Int = calculate(opr:"-")
+print("10 - 5 = \(f2(10,5))")
+
 
