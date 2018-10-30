@@ -327,5 +327,91 @@ let f1: (Int ,Int ) -> Int = calculate(opr:"+")  //定义一个函数类型常�
 print("10 + 5 = \(f1(10,5))")
 let f2: (Int ,Int ) -> Int = calculate(opr:"-")
 print("10 - 5 = \(f2(10,5))")
+prints_(str:str_)
 
+//闭包
+//闭包隐藏关键字return
+func calculateR(opr: String) -> (Int,Int) -> Int {
+    var result : (Int,Int) -> Int
 
+    switch(opr)
+    {
+    case "+":
+        result = {a,b in a + b}
+    default:
+        result = {a,b in a - b}
+    }
+    return result
+}
+
+let t1 : (Int,Int) -> Int = calculateR(opr:"+")
+print("35 + 10 = \(t1(35,10))")
+let t2 : (Int,Int) -> Int = calculateR(opr:"-")
+print("35 - 10 = \(t2(35,10))")
+prints_(str:str_)
+
+//闭包省了参数名
+
+func calculates(opr: String) -> (Int,Int) -> Int {
+    var result : (Int ,Int) -> Int
+    switch (opr)
+    {
+    case "+":
+        result = {$0 + $1}    //省了参数名， 同时要省了in关键字。$0指代第一个参数，$1指代第二个参数
+    default:
+        result = {$0 - $1}
+    }
+    return result
+}
+let k1:(Int,Int) ->Int = calculates(opr: "+")
+print("15 + 10 = \(k1(15,10))")
+let k2:(Int,Int) ->Int = calculates(opr: "-")
+print("15 - 10 = \(k2(15,10))")
+prints_(str:str_)
+
+//使用闭包返回值
+//{...}为闭包部分，可用看成一个函数，后面可用看为函数参数列表，(10,5)为闭包传递参数
+let c1: Int = {(a: Int,b: Int ) -> Int in return a + b}(10,5)
+print("10 + 5 = \(c1)")
+let c2: Int = {(a: Int ,b: Int) -> Int in return a - b}(10,5)
+print("10 - 5 = \(c2)")
+
+prints_(str:str_)
+
+//捕获上下文中的变量和常量
+func makeArray() -> (String) ->[String]{  //返回值是(String) -> [String]函数类型。
+    var ary: [String] = [String]()              //声明并初始化数组变量 它的作用域是makeArray函数体
+    
+    func addElement(element:String) ->[String]{         //定义了一个嵌套类型addElement函数
+        ary.append(element)    //改变ary变量的值。ary变量相对于addElement而言，是上下文中的变量。
+        return ary             //从函数体中返回ary变量
+    }
+    return addElement         //返回函数类型调用addElement.
+}
+
+let fs1 = makeArray()
+print("---fs1---")
+print(fs1("张三"))
+print(fs1("李四"))
+print(fs1("王五"))
+
+let fs2 = makeArray()
+print("---fs2---")
+print(fs2("刘备"))
+print(fs2("关羽"))
+print(fs2("张飞"))
+
+prints_(str:str_)
+
+//func makeArrayB() -> [String]{
+//    var ary: [String] = [String]()
+//    return {(element:String) ->[String] in ary.append(element)}
+//        return ary
+//
+//}
+var testEquality1: (Int,Int) -> Bool = {return $0 == $1}
+var testEquality2: (Int,Int) -> Bool = {$0 == $1}
+var testEquality3: (Int,Int) ->Bool = {(a: Int,b: Int) -> Bool in return a == b}
+
+var DoMath: (Int,Int) -> Int = {$0 - $1}
+print(DoMath(100,88))
