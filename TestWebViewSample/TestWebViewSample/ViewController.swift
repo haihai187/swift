@@ -76,7 +76,7 @@ class ViewController: UIViewController ,WKNavigationDelegate{
     }
     
   @objc  func testLoadRequest(_ sender: AnyObject){
-    let url = URL(string: "https://www.baidu.com")
+    let url = URL(string: "http://www.x64pro.com/demo.html")
         let request = URLRequest(url: url!)
         self.webView.load(request)
         self.webView.navigationDelegate = self
